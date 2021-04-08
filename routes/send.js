@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
     const client = require('twilio')(process.env.TWILIO_DEMO_ACCOUNT_SID, process.env.TWILIO_DEMO_AUTH_TOKEN);
-    const fromNumber = 'YOUR TWILIO NUMER';
+    const fromNumber = 'YOUR TWILIO NUMBER';
     const toNumber = 'YOUR MOBILE NUMBER';
 
     client.messages

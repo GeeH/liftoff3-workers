@@ -1,26 +1,31 @@
 <html>
 
 <head>
-  <title>Express</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Express</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
-  <h1>Send a message!</h1>
-  <button id="send-message">Send Message</button>
+<h1>Send a message!</h1>
+<button id="send-message">Send Message</button>
+<h3 id="result"></h3>
 </body>
 
 <script>
     const xhr = new XMLHttpRequest();
     const url = '/send';
-    let started, ended;
+    let started;
 
 
     xhr.onload = () => {
-        ended = Date.now();
-        console.log(ended - started);
         document.getElementById('send-message').disabled = false;
-        console.log(JSON.parse(xhr.responseText));
+        const message =  'Message '
+            + JSON.parse(xhr.responseText).sid
+            + ' sent in ' + (Date.now() - started);
+
+        console.log(message);
+        document.getElementById('result').innerText = message;
+
     };
 
     document.getElementById('send-message')
