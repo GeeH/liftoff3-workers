@@ -1,0 +1,35 @@
+<html>
+
+<head>
+  <title>Express</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <h1>Send a message!</h1>
+  <button id="send-message">Send Message</button>
+</body>
+
+<script>
+    const xhr = new XMLHttpRequest();
+    const url = '/send';
+    let started, ended;
+
+
+    xhr.onload = () => {
+        ended = Date.now();
+        console.log(ended - started);
+        document.getElementById('send-message').disabled = false;
+        console.log(JSON.parse(xhr.responseText));
+    };
+
+    document.getElementById('send-message')
+        .addEventListener('click', (event) => {
+            event.target.disabled = true;
+            xhr.open("GET", url, false);
+            started = Date.now();
+            xhr.send();
+        });
+</script>
+
+</html>
