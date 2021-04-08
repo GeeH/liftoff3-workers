@@ -1,21 +1,31 @@
 var express = require('express');
 var router = express.Router();
+var bs = require('nodestalker');
 
-router.get('/', function(req, res, next) {
-    const client = require('twilio')(process.env.TWILIO_DEMO_ACCOUNT_SID, process.env.TWILIO_DEMO_AUTH_TOKEN);
-    const fromNumber = 'YOUR TWILIO NUMBER';
-    const toNumber = 'YOUR MOBILE NUMBER';
+const fromNumber = 'TWILIO NUMBER';
+const toNumber = 'NUMBER TO SEND TO';
 
-    client.messages
-        .create({
-            body: 'The chances of finding out what’s really going on in the universe are so remote, the only thing to do is hang the sense of it and keep yourself occupied.',
-            from: fromNumber,
-            to: toNumber,
-        })
-        .then(message => {
+const host = 'localhost';
+const port = 11300;
+var tube = 'messages';
+
+var client = bs.Client(host + ':' + port);
+
+router.get('/', function (req, res, next) {
+    const job = {
+        toNumber: toNumber,
+        fromNumber: fromNumber,
+        message: 'Space,” it says, “is big. Really big. You just won\'t believe how vastly, hugely, mindbogglingly big it is. I mean, you may think it\'s a long way down the road to the chemist\'s, but that\'s just peanuts to space.'
+    };
+
+    client.use(tube).onSuccess(() => {
+        client.put(JSON.stringify(job)).onSuccess(job_id => {
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({sid: message.sid}));
+            res.end(JSON.stringify({job_id: job_id[0]}));
+            client.disconnect();
         });
+    });
+
 });
 
 module.exports = router;

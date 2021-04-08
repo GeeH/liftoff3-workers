@@ -19,8 +19,9 @@
 
     xhr.onload = () => {
         document.getElementById('send-message').disabled = false;
+        console.log(JSON.parse(xhr.responseText));
         const message =  'Message '
-            + JSON.parse(xhr.responseText).sid
+            + JSON.parse(xhr.responseText).job_id
             + ' sent in ' + (Date.now() - started);
 
         console.log(message);
